@@ -3,7 +3,7 @@ package de.vitbund.vitmaze.players;
 import java.util.Scanner;
 
 /**
- * Klasse eines minimalen Bots für das VITMaze
+ * Klasse eines minimalen Bots fÃ¼r das VITMaze
  * @author Patrick.Stalljohann
  * @version 1.0
  *
@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class MinimalBot {
 
 	/**
-	 * Hauptmethode zum Ausführen des Bots
+	 * Hauptmethode zum AusfÃ¼hren des Bots
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -42,8 +42,21 @@ public class MinimalBot {
 			String southCellStatus = input.nextLine();
 			String westCellStatus = input.nextLine();
 	
-			// Debug Information ausgeben (optional möglich)
+			// Debug Information ausgeben (optional mÃ¶glich)
 			System.err.println("Ergebnis Vorrunde: " + lastActionsResult);
+			
+			String [][] spielfeld = new String[sizeX][sizeY];
+			boolean sachbearbeiterGefunden = false;
+			
+			while (sachbearbeiterGefunden != true) {
+				spielfeld[startX][startY] = "O";
+				
+				
+				//if (eastCellStatus == "FLOOR") {
+					
+				}
+				
+			}
 			
 			// Rundenaktion ausgeben
 			System.out.println("go west");
