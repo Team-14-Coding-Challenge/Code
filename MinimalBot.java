@@ -3,7 +3,7 @@ package de.vitbund.vitmaze.players;
 import java.util.Scanner;
 
 /**
- * Klasse eines minimalen Bots für das VITMaze
+ * Klasse eines minimalen Bots fÃ¼r das VITMaze
  * @author Patrick.Stalljohann
  * @version 1.0
  *
@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class MinimalBot {
 
 	/**
-	 * Hauptmethode zum Ausführen des Bots
+	 * Hauptmethode zum AusfÃ¼hren des Bots
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -42,25 +42,21 @@ public class MinimalBot {
 			String southCellStatus = input.nextLine();
 			String westCellStatus = input.nextLine();
 	
-			// Debug Information ausgeben (optional möglich)
-			System.err.println("Ergebnis Vorrunde: " + lastActionsResult);
 			
-			//KartenFeld karte = new KartenFeld(sizeX, sizeY);
-			
-			//Erzeugen eines leeren Arrays mit den Maßen des Labyrinths
+			//Erzeugen der Spielfeldkarte
 			char[][] spielfeld = new char [sizeX][sizeY]; 
-			
-			
+			//Erzeugen der Objektkarte
 			char[][] sachbearbeiterfeld = new char [sizeX][sizeY];
 			
 			//Startpunkt in das leere Array eintragen
 			spielfeld[startX][startY] = 'O';
 			
-			//posHoehe und posBreite überschreiben bei jedem weiteren Zug
-			int posHoehe = startX;
-			int posBreite = startY;
+			//posHoehe und posBreite Ã¼berschreiben bei jedem weiteren Zug
+			int posHoehe = startY;
+			int posBreite = startX;
+
 			
-			
+			// Umgebung abfragen und eintragen
 			
 			
 			//Richtung Norden
@@ -70,7 +66,7 @@ public class MinimalBot {
 			}
 			
 			else if(northCellStatus.contains("FINISH")) {
-				//Prüfung,ob unser Sachbearbeiter mit unser ID
+				//PrÃ¼fung,ob unser Sachbearbeiter mit unser ID
 				if (northCellStatus.equals("FINISH " + playerId)) {
 					sachbearbeiterfeld[posHoehe - 1][posBreite] = 'S';
 				}
@@ -93,7 +89,7 @@ public class MinimalBot {
 			}
 			
 			else if(eastCellStatus.contains("FINISH")) {
-				//Prüfung,ob unser Sachbearbeiter mit unser ID
+				//PrÃ¼fung,ob unser Sachbearbeiter mit unser ID
 				if (eastCellStatus.equals("FINISH " + playerId)) {
 					sachbearbeiterfeld[posHoehe][posBreite + 1] = 'S';
 				}
@@ -110,13 +106,13 @@ public class MinimalBot {
 			
 			
 			
-			//Richtung Süden
+			//Richtung SÃ¼den
 			if(southCellStatus.equals("FLOOR")) {
 				spielfeld[posHoehe + 1][posBreite] = 'O';
 			}
 			
 			else if(southCellStatus.contains("FINISH")) {
-				//Prüfung,ob unser Sachbearbeiter mit unser ID
+				//PrÃ¼fung,ob unser Sachbearbeiter mit unser ID
 				if (southCellStatus.equals("FINISH " + playerId)) {
 					sachbearbeiterfeld[posHoehe + 1][posBreite] = 'S';
 				}
@@ -138,7 +134,7 @@ public class MinimalBot {
 			}
 			
 			else if(westCellStatus.contains("FINISH")) {
-				//Prüfung,ob unser Sachbearbeiter mit unser ID
+				//PrÃ¼fung,ob unser Sachbearbeiter mit unser ID
 				if (westCellStatus.equals("FINISH " + playerId)) {
 					sachbearbeiterfeld[posHoehe][posBreite - 1] = 'S';
 				}
@@ -153,50 +149,64 @@ public class MinimalBot {
 			}
 			
 			
+			// Bewegen des Bots
 			
-			
-			
-			
-			
-			
-			boolean o = false;
-			//Schleife für die Bewegung des Bots in freie Richtung
-			String i = "";
-			//while (! currentCellStatus.equals("FINISH " + playerId + " 0")) {
-			while (o == false) {	
-			if (currentCellStatus.equals("FINISH " + playerId + " 0")) {
-					i = "finish";
+			boolean sachbearbeiterGefunden = false;
+			String letzteAusgabe = "";
+
+			//while (sachbearbeiterGefunden == false) {	
+				
+				
+				// Debug Information ausgeben
+
+				//Lvl 1 startX: 7 startY: 1
+				System.err.println("Aktuelles Level: " + level);
+				System.err.println("Ergebnis Vorrunde: " + lastActionsResult);
+				System.err.println("Aktuelles Feld: " + currentCellStatus);
+				System.err.println("Feldstatus Norden: " + northCellStatus);
+				System.err.println("Feldstatus Osten: " + eastCellStatus);
+				System.err.println("Feldstatus SÃ¼den: " + southCellStatus);
+				System.err.println("Feldstatus Westen: " + westCellStatus);
+				
+				
+				if (currentCellStatus.equals("FINISH " + playerId + " 0")) {
+					letzteAusgabe = "finish";
+					sachbearbeiterGefunden = true;
 				}
 				
-				else if(westCellStatus.equals("FLOOR")) {
-					i = "go west";
+				else if(westCellStatus.equals("FLOOR") | westCellStatus.equals("FINISH " + playerId + " 0")) {
+					letzteAusgabe = "go west";
 					//anpassen an aktuelle Position
 					posBreite = posBreite - 1;
 				}
 				
-				else if(eastCellStatus.equals("FLOOR")) {
-					i = "go east";
+				else if(eastCellStatus.equals("FLOOR") | eastCellStatus.equals("FINISH " + playerId + " 0")) {
+					letzteAusgabe = "go east";
 					posBreite = posBreite + 1;
 				}
 				
-				else if(northCellStatus.equals("FLOOR")) {
-					i = "go north";
+				else if(northCellStatus.equals("FLOOR") | northCellStatus.equals("FINISH " + playerId + " 0")) {
+					letzteAusgabe = "go north";
 					posHoehe = posHoehe - 1;
 				}
 				
-				else if(southCellStatus.equals("FLOOR")) {
-					i = "go south";
+				else if(southCellStatus.equals("FLOOR") | southCellStatus.equals("FINISH " + playerId + " 0")) {
+					letzteAusgabe = "go south";
 					posHoehe = posHoehe + 1;
 				}
 				
+				//Debug Informationen ausgeben
+				System.err.println("Aktuelle Koordinaten: " + posHoehe + " | " + posBreite);
+				System.err.println("----------------------------------------");
+
+				
 				// Rundenaktion ausgeben 
-				System.out.println(i);
+				System.out.println(letzteAusgabe);
 			}
 			
+		
 			
-			
-			
-		}
+		//}
 		
 		// Eingabe schliessen (letzte Aktion)
 		input.close();
